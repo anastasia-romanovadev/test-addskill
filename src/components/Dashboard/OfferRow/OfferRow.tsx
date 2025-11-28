@@ -5,7 +5,6 @@ import { formatCurrency, formatDate } from '../../../utils/formatters';
 import './OfferRow.modules.scss'
 
 const platformIcons = (p: string) => {
-  // заглушка — в проде вернуть svg по ключу
   return <span className="offer-row__platform-icon">{p[0].toUpperCase()}</span>;
 };
 

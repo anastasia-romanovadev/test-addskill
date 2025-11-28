@@ -2,17 +2,20 @@ import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/tool
 import type { Offer } from '../types';
 import { mockOffers } from '../mocks/offers';
 
+export type OfferSortKey = 'name' | 'platforms' | 'launchDate' | 'balance' | 'spend' | 'status';
 export type SortDirection = 'asc' | 'desc' | null;
 
 export interface OffersState {
-  data: Offer[];
+  original: Offer[]; 
+  data: Offer[];   
   loading: boolean;
   error: string | null;
-  selected: string[]; 
-  sortBy: { key: keyof Offer | null; dir: SortDirection };
+  selected: string[];
+  sortBy: { key: OfferSortKey | null; dir: SortDirection };
 }
 
 const initialState: OffersState = {
+  original: [],
   data: [],
   loading: false,
   error: null,
@@ -27,6 +30,31 @@ export const fetchOffers = createAsyncThunk<Offer[]>(
     return mockOffers;
   }
 );
+
+const compareValues = (a: Offer, b: Offer, key: OfferSortKey): number => {
+  switch (key) {
+    case 'launchDate': {
+      const av = new Date(a.launchDate).getTime();
+      const bv = new Date(b.launchDate).getTime();
+      return av - bv;
+    }
+    case 'balance':
+      return a.balance - b.balance;
+    case 'spend':
+      return a.spend - b.spend;
+    case 'name':
+      return a.name.localeCompare(b.name);
+    case 'status':
+      return a.status.localeCompare(b.status);
+    case 'platforms': {
+      const av = a.platforms.join(', ');
+      const bv = b.platforms.join(', ');
+      return av.localeCompare(bv);
+    }
+    default:
+      return 0;
+  }
+};
 
 const offersSlice = createSlice({
   name: 'offers',
@@ -44,8 +72,15 @@ const offersSlice = createSlice({
     deselectAll(state) {
       state.selected = [];
     },
-    setSort(state, action: PayloadAction<{ key: keyof Offer }>) {
+    setSort(state, action: PayloadAction<{ key: OfferSortKey }>) {
       const key = action.payload.key;
+
+      if (state.sortBy.key === key && state.sortBy.dir === 'desc') {
+        state.sortBy = { key: null, dir: null };
+        state.data = state.original.slice();
+        return;
+      }
+
       if (state.sortBy.key === key) {
         state.sortBy.dir = state.sortBy.dir === 'asc' ? 'desc' : 'asc';
       } else {
@@ -54,19 +89,10 @@ const offersSlice = createSlice({
       }
 
       const dir = state.sortBy.dir === 'asc' ? 1 : -1;
-      state.data = [...state.data].sort((a, b) => {
-        const av = (a as any)[key];
-        const bv = (b as any)[key];
 
-        if (key === 'launchDate') {
-          return (new Date(av).getTime() - new Date(bv).getTime()) * dir;
-        }
-
-        if (typeof av === 'number' && typeof bv === 'number') {
-          return (av - bv) * dir;
-        }
-        return String(av).localeCompare(String(bv)) * dir;
-      });
+      state.data = state.original
+        .slice()
+        .sort((a, b) => compareValues(a, b, key) * dir);
     },
   },
   extraReducers: (b) =>
@@ -77,6 +103,7 @@ const offersSlice = createSlice({
       })
       .addCase(fetchOffers.fulfilled, (s, a) => {
         s.loading = false;
+        s.original = a.payload;
         s.data = a.payload;
       })
       .addCase(fetchOffers.rejected, (s, a) => {
@@ -85,7 +112,5 @@ const offersSlice = createSlice({
       }),
 });
 
-export const { toggleSelect, selectAll, deselectAll, setSort } =
-  offersSlice.actions;
-
+export const { toggleSelect, selectAll, deselectAll, setSort } = offersSlice.actions;
 export default offersSlice.reducer;

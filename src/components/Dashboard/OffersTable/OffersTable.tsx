@@ -1,11 +1,11 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { Checkbox } from '../../UI/Checkbox';
-import { selectAll, deselectAll, setSort, toggleSelect } from '../../../features/offerSlice';
+import {selectAll, deselectAll, setSort, toggleSelect, type OfferSortKey,} from '../../../features/offerSlice';
 import OfferRow from '../OfferRow/OfferRow';
-import './OffersTable.modules.scss'
+import './OffersTable.modules.scss';
 
-const head = [
+const head: { key: OfferSortKey; label: string }[] = [
   { key: 'name', label: 'Название оффера' },
   { key: 'platforms', label: 'Площадки' },
   { key: 'launchDate', label: 'Дата запуска' },
@@ -36,10 +36,10 @@ const OffersTable: React.FC = () => {
             <th
               key={h.key}
               className="offers-table__cell offers-table__cell--head"
-              onClick={() => dispatch(setSort({ key: h.key as any }))}
+              onClick={() => dispatch(setSort({ key: h.key }))}
             >
               <span className="offers-table__head-label">{h.label}</span>
-              {sortBy.key === (h.key as any) && (
+              {sortBy.key === h.key && (
                 <span className="offers-table__sort-indicator offers-table__sort-indicator--active">
                   {sortBy.dir === 'asc' ? '▲' : '▼'}
                 </span>
@@ -61,6 +61,5 @@ const OffersTable: React.FC = () => {
     </table>
   );
 };
-
 
 export default OffersTable;
