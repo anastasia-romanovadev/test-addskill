@@ -1,0 +1,66 @@
+.dashboard {
+  padding: 20px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #111827;
+  }
+
+  &__table {
+    margin-top: 8px;
+  }
+
+  &__cards {
+    margin-top: 8px;
+  }
+
+  &__bottom-grid {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+.dashboard-status {
+  padding: 20px 24px;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+/* Desktop / mobile переключение */
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .dashboard {
+    padding: 16px 12px;
+
+    &__bottom-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    &__title {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+}

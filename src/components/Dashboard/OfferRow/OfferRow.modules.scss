@@ -1,0 +1,95 @@
+.offer-row {
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__cell {
+    padding: 12px;
+    font-size: 14px;
+    color: #111827;
+    vertical-align: middle;
+
+    &--checkbox {
+      width: 40px;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    &--name {
+      font-weight: 500;
+    }
+
+    &--platforms {
+      white-space: nowrap;
+    }
+
+    &--date,
+    &--balance,
+    &--spend,
+    &--status {
+      font-size: 13px;
+      color: #374151;
+    }
+
+    &--balance,
+    &--spend {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    &--status {
+      text-align: right;
+    }
+  }
+
+  &__platform {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+  }
+
+  &__platform-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background-color: #f3f4f6;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4b5563;
+  }
+
+  &__status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 12px;
+
+    &--active {
+      background-color: #e6ffef;
+      color: #2c8a4d;
+    }
+
+    &--stopped {
+      background-color: #fff0f0;
+      color: #d63f3f;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .offer-row {
+    &__cell {
+      padding: 10px 8px;
+      font-size: 13px;
+    }
+  }
+}

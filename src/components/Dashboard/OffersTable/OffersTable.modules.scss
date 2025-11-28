@@ -1,0 +1,62 @@
+.offers-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 14px;
+  color: #111827;
+
+  &__head {
+    background-color: #f9fafb;
+  }
+
+  &__body {
+    background-color: #ffffff;
+  }
+
+  &__cell {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+
+    &--checkbox {
+      width: 40px;
+    }
+
+    &--head {
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: none;
+      color: #6b7280;
+      user-select: none;
+      cursor: pointer;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: #f3f4f6;
+      }
+    }
+  }
+
+  &__head-label {
+    margin-right: 6px;
+  }
+
+  &__sort-indicator {
+    font-size: 10px;
+    color: #9ca3af;
+
+    &--active {
+      color: #111827;
+    }
+  }
+
+  tr:last-child .offers-table__cell {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .offers-table {
+    display: none;
+  }
+}
